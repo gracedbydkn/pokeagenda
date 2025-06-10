@@ -46,4 +46,16 @@ async function login(req, res) {
     }
 }
 
-module.exports = { register, login };
+async function listarUsuarios(req, res) {
+    try {
+        const [rows] = await pool.query(
+            'SELECT id, nome, email FROM usuarios'
+        );
+        res.json(rows);
+    } catch (error) {
+        console.error (error)
+        res.status(500).json({ error: 'Erro ao listar usuários' })
+    }
+}
+
+module.exports = { register, login, listarUsuarios };
