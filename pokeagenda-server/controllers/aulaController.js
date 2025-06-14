@@ -38,4 +38,40 @@ async function listarAulas(req, res) {
     }
 }
 
-module.exports = { criarAula, listarAulas };
+async function atualizarAula(req, res) {
+    const { id } = req.params;
+    const { aula_nome, dia_da_semana, horario_inicio, horario_fim } = req.body;
+
+    try {
+        await pool.query(
+            'UPDATE aulas SET aula_nome = ?, dia_da_semana = ?, horario_inicio = ?, horario_fim = ? WHERE id = ?',
+            [aula_nome, dia_da_semana, horario_inicio, horario_fim, id]
+        );
+        res.json({ message: 'Aula atualizada com sucesso' });
+    } catch (error) {
+        console.error (error);
+        res.status(500).json({ error: 'Erro ao atualizar aula' });
+    }
+}
+
+async function deletarAula(req, res) {
+    const { id } = req.params;
+
+    try { 
+        const [result] = await pool.query(
+            'DELETE FROM aulas WHERE id = ?',
+            [id]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Aula não encontrada'});
+        }
+
+        res.json({ message: 'Aula excluída com sucesso' });
+    } catch (error) {
+        console.error (error);
+        res.status(500).json({ error: 'Erro ao excluir aula' });
+    }
+}
+
+module.exports = { criarAula, listarAulas, atualizarAula, deletarAula };

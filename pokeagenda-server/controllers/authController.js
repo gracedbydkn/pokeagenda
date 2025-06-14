@@ -58,4 +58,28 @@ async function listarUsuarios(req, res) {
     }
 }
 
-module.exports = { register, login, listarUsuarios };
+async function getMe(req, res) {
+    const { id } = req.query;
+
+    if (!id) {
+        return res.status(400).json({ error: 'ID do usuário é obrigatório' });
+    }
+
+    try {
+        const [rows] = await pool.query(
+            'SELECT id, nome, email FROM usuarios WHERE id = ? ',
+            [id]
+        );
+
+        if (rows.length === 0) {
+            return res.status(404).json({ error: 'Usuário não encontrado' });
+        }
+
+        res.json(rows[0]);
+    } catch (error) {
+        console.error (error)
+        res.status(500).json({ error: 'Erro ao buscar usuário' })
+    }
+}
+
+module.exports = { register, login, listarUsuarios, getMe };

@@ -57,4 +57,24 @@ async function calcularPresenca(req, res) {
     }
 }
 
-module.exports = { registrarPresenca, listarPresencas, calcularPresenca };
+async function atualizarPresenca(req, res) {
+    const { id } = req.params;
+    const { presenca } = req.body;
+
+    if (typeof presenca !== 'boolean') {
+        return res.status(400).json({ error: 'Dados obrigatórios inválidos' });
+    }
+    
+    try {
+        await pool.query(
+            'UPDATE presenca SET presenca = ? WHERE id = ?',
+            [presenca, id]
+        );
+        res.json({ message: 'Presença atualizada com sucesso' });
+    } catch (error) {
+        console.error (error);
+        res.status(500).json({ error: 'Erro ao atualizar presença' });
+    }
+}
+
+module.exports = { registrarPresenca, listarPresencas, calcularPresenca, atualizarPresenca };
