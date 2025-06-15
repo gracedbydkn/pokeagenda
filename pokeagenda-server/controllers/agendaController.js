@@ -1,16 +1,16 @@
 const pool = require('../db');
 
 async function criarAgenda(req, res) {
-    const { usuarios_id, nome, porc_presenca_minima } = req.body;
+    const { usuarios_id, nome, porc_presenca_minima, tema } = req.body;
 
-    if (!usuarios_id || !nome) {
-        return res.status(400).json({ error: 'Usuário e nome da agenda são obrigatórios'});
+    if (!nome) {
+        return res.status(400).json({ error: 'Nome da agenda é obrigatório' });
     }
 
     try {
         await pool.query(
-            'INSERT INTO agendas (usuarios_id, nome, porc_presenca_minima) VALUES (?, ?, ?)',
-            [usuarios_id, nome, porc_presenca_minima || 75.00]
+            'INSERT INTO agendas (usuarios_id, nome, porc_presenca_minima, tema) VALUES (?, ?, ?, ?)',
+            [usuarios_id, nome, porc_presenca_minima || 75.00, tema]
         );
         res.status(201).json({ message: 'Agenda criada com sucesso' });
     } catch (error) {
@@ -20,12 +20,17 @@ async function criarAgenda(req, res) {
 }
 
 async function listarAgendas(req, res) {
-    const { usuarios_id } = req.query;
+    const { usuarios_id } = req.params;
 
+    if (!usuarios_id) {
+        return res.status(400).json({ error: 'O parâmetro usuarios_id é obrigatório' });
+    }
+    
     try {
         const [rows] = await pool.query(
             'SELECT * FROM agendas WHERE usuarios_id = ?',
-            [usuarios_id]);
+            [usuarios_id]
+        );
         res.json(rows);
     } catch (error) {
         console.error(error);
@@ -43,8 +48,8 @@ async function atualizarAgenda(req, res) {
 
     try {
         const [result] = await pool.query(
-            'UPDATE agendas SET nome = ?, porc_presenca_minima = ? WHERE id = ?',
-            [nome, porc_presenca_minima || 75.00, id]
+            'UPDATE agendas SET nome = ?, porc_presenca_minima = ?, tema = ? WHERE id = ?',
+            [nome, porc_presenca_minima || 75.00, tema || null, id]
         );
 
         if (result.affectedRows === 0) {

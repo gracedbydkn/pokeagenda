@@ -1,25 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { JSX } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
+import AgendaPage from './pages/AgendaPage';
 import './App.css';
 
-function App() {
+const isAuthenticated = () => {
+  return !!localStorage.getItem('token');
+};
+
+const PrivateRoute = ({ children }: { children: JSX.Element }) => {
+  return isAuthenticated() ? children : <Navigate to="/login" />;
+};
+
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/agenda' element={<PrivateRoute><AgendaPage /></PrivateRoute>} />
+        <Route path='/' element={<PrivateRoute><AgendaPage /></PrivateRoute>} />
+      </Routes>
+    </Router>
   );
 }
 

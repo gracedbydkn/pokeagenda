@@ -54,6 +54,35 @@ async function atualizarAula(req, res) {
     }
 }
 
+async function listarAulasComPresenca(req, res) {
+    const { agendas_id } = req.params;
+
+    try {
+        const [aulas] = await pool.query(
+            'SELECT * FROM aulas WHERE agendas_id = ?',
+            [agendas_id]
+        );
+
+        const result = [];
+
+        for (const aula of aulas) {
+            const [presencas] = await pool.query(
+                'SELECT * FROM presenca WHERE aulas_id = ?',
+                [aula.id]
+            );
+
+            result.push({
+            ...aula,
+            presencas
+            });
+        }
+        res.json(result);
+    } catch (error) {
+        console.error (error);
+        res.status(500).json({ error: 'Erro ao listar aulas com presenças' });
+    }
+}
+
 async function deletarAula(req, res) {
     const { id } = req.params;
 
@@ -74,4 +103,4 @@ async function deletarAula(req, res) {
     }
 }
 
-module.exports = { criarAula, listarAulas, atualizarAula, deletarAula };
+module.exports = { criarAula, listarAulas, atualizarAula, listarAulasComPresenca, deletarAula };

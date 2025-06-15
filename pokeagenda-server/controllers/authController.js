@@ -1,4 +1,5 @@
 const pool = require('../db.js');
+const jwt = require('jsonwebtoken');
 
 async function register(req, res) {
     const { nome, email, senha } = req.body;
@@ -29,16 +30,25 @@ async function login(req, res) {
     }
 
     try {
-        const [rows] = await pool.query('SELECT * FROM usuarios WHERE email = ? AND senha = ?', [email, senha]);
+        const [rows] = await pool.query(
+            'SELECT * FROM usuarios WHERE email = ? AND senha = ?',
+            [email, senha]
+        );
 
         if (rows.length === 0) {
-        return res.status(401).json({ error: 'Email ou senha incorretos.' });
+            return res.status(401).json({ error: 'Email ou senha incorretos.' });
         }
         
         const usuario = { ...rows[0] };
         delete usuario.senha;
 
-        res.json({ message: 'Login bem-sucedido', usuario });
+        const token = jwt.sign(
+            { id: usuario.id },
+            process.env.JWT_SECRET,
+            { expiresIn: '1d' }
+        );
+
+        res.json({ message: 'Login bem-sucedido', token });
     } catch (error) {
     console.error(error);
 
@@ -59,10 +69,10 @@ async function listarUsuarios(req, res) {
 }
 
 async function getMe(req, res) {
-    const { id } = req.query;
+    const id = req.user?.id;
 
     if (!id) {
-        return res.status(400).json({ error: 'ID do usuário é obrigatório' });
+        return res.status(400).json({ error: 'Usuário não autenticado' });
     }
 
     try {

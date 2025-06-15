@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `agendas` (
   `usuarios_id` INT NOT NULL,
   `nome` VARCHAR(100) NOT NULL,
   `porc_presenca_minima` DECIMAL(5,2) NULL DEFAULT 75.00,
+  `tema` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_agendas_usuarios_idx` (`usuarios_id` ASC),
   CONSTRAINT `fk_agendas_usuarios`
@@ -80,7 +81,3 @@ CREATE TABLE IF NOT EXISTS `presenca` (
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
-
-
-select * from usuarios
