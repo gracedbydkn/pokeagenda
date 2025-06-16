@@ -8,17 +8,32 @@ async function register(req, res) {
     }
   
     try {
-        const [rows] = await pool.query('SELECT id FROM usuarios WHERE email = ?', [email]);
+        const [rows] = await pool.query(
+            'SELECT id FROM usuarios WHERE email = ?',
+            [email]
+        );
     
         if (rows.length > 0) {
-          return res.status(400).json({ error: 'Email já cadastrado' });
+            return res.status(400).json({ error: 'Email já cadastrado' });
         }
 
-        await pool.query('INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)', [nome, email, senha]);
-        res.status(201).json({ message: 'Usuário registrado com sucesso' });
+        const result = await pool.query(
+            'INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)',
+            [nome, email, senha]
+        );
+
+        const insertedId = result[0]?.insertId;
+
+        const token = jwt.sign(
+            { id: insertedId },
+            process.env.JWT_SECRET,
+            { expiresIn: '1d' }
+        );
+
+        res.status(201).json({ message: 'Usuário registrado com sucesso', token });
     } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro no servidor' });
+        console.error(error);
+        res.status(500).json({ error: 'Erro no servidor' });
     }
 }
 
@@ -56,18 +71,6 @@ async function login(req, res) {
     }
 }
 
-async function listarUsuarios(req, res) {
-    try {
-        const [rows] = await pool.query(
-            'SELECT id, nome, email FROM usuarios'
-        );
-        res.json(rows);
-    } catch (error) {
-        console.error (error)
-        res.status(500).json({ error: 'Erro ao listar usuários' })
-    }
-}
-
 async function getMe(req, res) {
     const id = req.user?.id;
 
@@ -92,4 +95,4 @@ async function getMe(req, res) {
     }
 }
 
-module.exports = { register, login, listarUsuarios, getMe };
+module.exports = { register, login, getMe };

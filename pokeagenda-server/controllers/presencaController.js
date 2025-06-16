@@ -20,7 +20,7 @@ async function registrarPresenca(req, res) {
 }
 
 async function listarPresencas(req, res) {
-    const { aulas_id } = req.query;
+    const { aulas_id } = req.params;
 
     if (!aulas_id) {
         return res.status(400).json({ error: 'Dados obrigatórios faltando' })

@@ -2,8 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const server = express();
 const cors = require('cors');
+const { swaggerUi, specs } = require('./swagger');
 
 server.use(cors({ origin: 'http://localhost:3000' }));
+server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 const authRoutes = require('./routes/auth');
 const agendaRoutes = require('./routes/agendas');

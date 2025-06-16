@@ -1,0 +1,56 @@
+.fc {
+    font-family: 'Inter';
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.fc-toolbar-title {
+    color: #ffcb05;
+}
+
+.fc-event {
+    color: white !important;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    padding: 4px;
+    font-weight: bold;
+}
+
+.fc-event-bg {
+    filter: brightness(1.1);
+}
+
+.fc-timegrid-slot-label {
+    background-color: #e0e0e0;
+}
+
+.fc-scrollgrid-section-header td {
+    background-color: #3b4cca;
+    color: #fff;
+}
+
+.calendar-container {
+    position: relative;
+    min-height: 600px;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(4px);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.calendar-container::before {
+    background-size: cover;
+    background-position: center;
+    opacity: 0.08;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.calendar-container .fc {
+    position: relative;
+    z-index: 2;
+}

@@ -1,12 +1,12 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import api from '../services/api';
 import { Usuario } from '../types/Usuario';
-import { promises } from 'dns';
 import { LoginResponse } from '../types/LoginResponse';
 
 interface AuthContextType {
     usuario: Usuario | null;
     handleLogin: (email: string, senha: string) => Promise<void>;
+    handleRegister: (nome: string, email: string, senha: string) => Promise<void>;
     handleLogout: () => void;
 }
 
@@ -41,13 +41,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUsuario(usuarioLogado.data);
     };
 
+    const handleRegister = async (nome: string, email: string, senha: string) => {
+        const response = await api.post<LoginResponse>('/auth/register', {
+            nome,
+            email,
+            senha
+        });
+
+        localStorage.setItem('token', response.data.token);
+
+        const usuarioCriado = await api.get<Usuario>('/auth/me', {
+            headers: { Authorization: `Bearer ${response.data.token}` },
+        });
+
+        setUsuario(usuarioCriado.data);
+    }
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         setUsuario(null);
     };
 
     return (
-        <AuthContext.Provider value={{ usuario, handleLogin, handleLogout}}>
+        <AuthContext.Provider value={{ usuario, handleLogin, handleRegister, handleLogout}}>
             {children}
         </AuthContext.Provider>
     );
