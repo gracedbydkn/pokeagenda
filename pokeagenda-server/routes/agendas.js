@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const { criarAgenda, listarAgendas, atualizarAgenda, deletarAgenda } = require('../controllers/agendaController');
+const autenticarJWT = require('../middleware/auth');
 
 router.post('/', criarAgenda);
 router.get('/usuarios/:usuarios_id', listarAgendas);
-router.put('/:id', atualizarAgenda);
-router.delete('/:id', deletarAgenda);
+router.put('/:id', autenticarJWT, atualizarAgenda);
+router.delete('/:id', autenticarJWT, deletarAgenda);
 
 module.exports = router;
 
@@ -73,15 +74,19 @@ module.exports = router;
  * /agendas/{id}:
  *   put:
  *     tags: [Agendas]
- *     summary: Atualiza uma agenda existente
+ *     summary: Atualiza uma agenda existente (somente pelo dono)
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
+ *         description: ID da agenda
  *         schema:
  *           type: integer
  *     requestBody:
  *       required: true
+ *       description: Dados atualizados da agenda
  *       content:
  *         application/json:
  *           schema:
@@ -98,7 +103,11 @@ module.exports = router;
  *       200:
  *         description: Agenda atualizada com sucesso
  *       400:
- *         description: Nome obrigatório ou agenda não encontrada
+ *         description: Nome obrigatório ou dados inválidos
+ *       403:
+ *         description: Você não tem permissão para editar esta agenda
+ *       404:
+ *         description: Agenda não encontrada
  */
 
 /**
@@ -106,16 +115,21 @@ module.exports = router;
  * /agendas/{id}:
  *   delete:
  *     tags: [Agendas]
- *     summary: Deleta uma agenda
+ *     summary: Exclui uma agenda (somente pelo dono)
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
+ *         description: ID da agenda
  *         schema:
  *           type: integer
  *     responses:
  *       200:
- *         description: Agenda deletada com sucesso
+ *         description: Agenda excluída com sucesso
+ *       403:
+ *         description: Você não tem permissão para excluir esta agenda
  *       404:
  *         description: Agenda não encontrada
  */

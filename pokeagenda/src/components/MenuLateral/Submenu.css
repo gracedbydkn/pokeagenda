@@ -1,0 +1,130 @@
+.menu-botoes {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.botao-icone {
+    background: none;
+    border: none;
+    padding: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.botao-icone img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.botao-icone:hover {
+    transform: scale(1.1);
+}
+
+.botao-icone .tooltip {
+    position: absolute;
+    left: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.botao-icone:hover .tooltip {
+    opacity: 1;
+}
+
+.submenu-container {
+    position: relative;
+}
+
+.submenu {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 8px;
+    border-radius: 8px;
+    z-index: 1300;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.submenu.aberto {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-12px);
+    pointer-events: auto;
+}
+
+.submenu button {
+    background: none;
+    border: none;
+    color: white;
+    text-align: left;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.submenu button:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.submenu-perfil {
+    position: absolute;
+    bottom: 80px;
+    left: 60px;
+    min-width: 160px;
+    padding: 12px;
+    text-align: left;
+    z-index: 110;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(0) translateY(0);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.submenu-perfil.aberto {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0) translateY(0);
+}
+
+.submenu-perfil:not(.aberto) {
+    display: none;
+}
+
+.submenu-usuario {
+    padding: 8px 6px;
+    font-size: 14px;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 8px;
+}
+
+.botao-sair:hover {
+    background: rgba(255,255,255,0.1);
+}

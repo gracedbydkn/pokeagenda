@@ -40,21 +40,28 @@ async function listarAgendas(req, res) {
 
 async function atualizarAgenda(req, res) {
     const { id } = req.params;
-    const { nome, porc_presenca_minima } = req.body;
+    const { nome, tema, porc_presenca_minima } = req.body;
+    const usuarioId = req.user?.id;
 
     if (!nome) {
         return res.status(400).json({ error: 'Nome da agenda é obrigatório' });
     }
 
     try {
-        const [result] = await pool.query(
+        const [agendas] = await pool.query('SELECT usuarios_id FROM agendas WHERE id = ?', [id]);
+
+        if (!agendas.length) {
+            return res.status(404).json({ error: 'Agenda não encontrada' });
+        }
+
+        if (agendas[0].usuarios_id !== usuarioId) {
+            return res.status(403).json({ error: 'Você não tem permissão para editar esta agenda' });
+        }
+        
+        await pool.query(
             'UPDATE agendas SET nome = ?, porc_presenca_minima = ?, tema = ? WHERE id = ?',
             [nome, porc_presenca_minima || 75.00, tema || null, id]
         );
-
-        if (result.affectedRows === 0) {
-            return res.status(400).json({ error: 'Agenda não encontrada' });
-        }
 
         res.json({ message: 'Agenda atualizada com sucesso' });
     } catch (error) {
@@ -65,16 +72,26 @@ async function atualizarAgenda(req, res) {
 
 async function deletarAgenda(req, res) {
     const { id } = req.params;
+    const usuarioId = req.user?.id;
 
     try {
-        const [result] = await pool.query(
+        const [agendas] = await pool.query(
+            'SELECT usuarios_id FROM agendas WHERE id = ?',
+            [id]
+        );
+        
+        if (!agendas.length) {
+            return res.status(404).json({ error: 'Agenda não encontrada' });
+        }
+
+        if (agendas[0].usuarios_id !== usuarioId) {
+            return res.status(403).json({ error: 'Você não tem permissão para excluir esta agenda' });
+        }
+
+        await pool.query(
             'DELETE FROM agendas WHERE id = ?',
             [id]
         );
-
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Agenda não encontrada' });
-        }
 
         res.json({ message: 'Agenda excluída com sucesso' });
     } catch (error) {

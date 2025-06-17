@@ -1,5 +1,5 @@
 export interface Presenca {
-    id: number;
+    id?: number;
     dia_aula: string;
     presenca: number
 }
@@ -11,4 +11,5 @@ export interface Aula {
     horario_inicio: string;
     horario_fim: string;
     presencas: Presenca[];
+    agendas_id?: number;
 }

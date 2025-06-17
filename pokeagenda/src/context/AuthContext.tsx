@@ -20,9 +20,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             const token = localStorage.getItem('token');
             if (token) {
                 try {
-                    const response = await api.get<Usuario>('/auth/me', {
-                        headers: { Authorization: `Bearer ${token}` },
-                    });
+                    const response = await api.get<Usuario>('/auth/me');
                     setUsuario(response.data);
                 } catch {
                     handleLogout();
@@ -35,9 +33,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const handleLogin = async (email: string, senha: string) => {
         const response = await api.post<LoginResponse>('/auth/login', { email, senha });
         localStorage.setItem('token', response.data.token);
-        const usuarioLogado = await api.get<Usuario>('/auth/me', {
-            headers: { Authorization: `Bearer ${response.data.token}` },
-        });
+        const usuarioLogado = await api.get<Usuario>('/auth/me');
         setUsuario(usuarioLogado.data);
     };
 
@@ -47,19 +43,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             email,
             senha
         });
-
         localStorage.setItem('token', response.data.token);
-
-        const usuarioCriado = await api.get<Usuario>('/auth/me', {
-            headers: { Authorization: `Bearer ${response.data.token}` },
-        });
-
+        const usuarioCriado = await api.get<Usuario>('/auth/me');
         setUsuario(usuarioCriado.data);
-    }
+    };
 
     const handleLogout = () => {
         localStorage.removeItem('token');
         setUsuario(null);
+        window.location.reload();
     };
 
     return (

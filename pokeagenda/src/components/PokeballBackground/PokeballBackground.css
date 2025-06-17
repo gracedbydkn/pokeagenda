@@ -17,7 +17,7 @@
     width: 100%;
     height: 10px;
     background-color: #2d2d2d;
-    z-index: 1;
+    z-index: 110;
 }
 
 .fechadura-central {
@@ -30,7 +30,7 @@
     width: 110px;
     height: 110px;
     border-radius: 50%;
-    z-index: 2;
+    z-index: 120;
      display: flex;
     align-items: center;
     justify-content: center;
@@ -40,6 +40,27 @@
      width: 66px;
     height: 66px;
     object-fit: contain;
+}
 
+.pokeagenda-title {
+    position: absolute;
+    top: 9%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Pokemon', sans-serif;
+    font-size: 90px;
+    color: #FFD700;
+    letter-spacing: 2px;
+    text-shadow:
+        -4px -4px #3b4cca,
+        4px -4px #3b4cca,
+        -4px 4px #3b4cca,
+        4px 4px #3b4cca;
+    z-index: 130;
+}
+
+@font-face {
+    font-family: 'Pokemon';
+    src: url('/public/fonts/Pokemon Solid.ttf') format('truetype');
 }
 

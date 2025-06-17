@@ -1,0 +1,41 @@
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.formulario label {
+  font-weight: bold;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.formulario input,
+.formulario select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.formulario input[type="checkbox"] {
+  width: auto;
+  margin-right: 6px;
+}
+
+.formulario button {
+  margin-top: 12px;
+  background-color: #3b4cca;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.formulario button:hover {
+  background-color: #2d39a8;
+}

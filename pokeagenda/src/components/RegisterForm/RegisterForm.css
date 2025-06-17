@@ -1,6 +1,6 @@
 .register-box {
     position: relative;
-    z-index: 3;
+    z-index: 130;
     padding: 40px;
     border-radius: 12px;
     width: 100%;

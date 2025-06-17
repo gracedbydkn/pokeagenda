@@ -1,0 +1,59 @@
+.dark {
+    background: #595761 !important;
+    box-shadow: #595761
+}
+
+.dragon {
+    background: #0C69C8 !important;
+    box-shadow: #0C69C8
+}
+
+.electric {
+    background: #F2D94E !important;
+    box-shadow: #F2D94E;
+}
+
+.fire {
+    background: #FBA54C !important;
+    box-shadow: #FBA54C;
+}
+
+.fairy {
+    background: #EE90E6 !important;
+    box-shadow: #EE90E6
+}
+
+.ghost {
+    background: #5F6DBC !important;
+    box-shadow: #5F6DBC
+}
+
+.grass {
+    background: #5FBD58 !important;
+    box-shadow: #5FBD58
+}
+
+.ground {
+    background: #DA7C4D !important;
+    box-shadow: #DA7C4D;
+}
+
+.ice {
+    background: #75D0C1 !important;
+    box-shadow: #75D0C1;
+}
+
+.normal {
+    background: #A0A29F !important;
+    box-shadow: #A0A29F;
+}
+
+.poison {
+    background: #B763CF !important;
+    box-shadow: #B763CF
+}
+
+.water {
+    background: #539DDF !important;
+    box-shadow: #539DDF;
+}

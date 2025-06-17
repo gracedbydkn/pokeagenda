@@ -1,34 +1,35 @@
 .header-agenda {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 24px;
-  height: 100px;
-  backdrop-filter: blur(6px);
-  text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    flex-wrap: nowrap;
+    text-align: center;
+    height: 100px;
+    backdrop-filter: blur(6px);
 }
 
 .agenda-nome {
-  font-size: 1.8rem;
-  color: white;
-  text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
-  flex: 1;
+    font-size: 1.8rem;
+    color: white;
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+    flex: 1;
 }
 
 .pokemons-esquerda,
 .pokemons-direita {
-  display: flex;
-  gap: 8px;
+    display: flex;
+    gap: 8px;
 }
 
 .poke-sprite {
-  height: 64px;
-  width: 64px;
-  object-fit: contain;
-  animation: float 3s ease-in-out infinite;
+    height: 64px;
+    width: 64px;
+    object-fit: contain;
+    animation: float 3s ease-in-out infinite;
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
 }

@@ -61,7 +61,7 @@ async function atualizarPresenca(req, res) {
     const { id } = req.params;
     const { presenca } = req.body;
 
-    if (typeof presenca !== 'boolean') {
+    if (typeof presenca !== 'number' && typeof presenca !== 'boolean') {
         return res.status(400).json({ error: 'Dados obrigatórios inválidos' });
     }
     

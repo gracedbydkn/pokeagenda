@@ -1,0 +1,98 @@
+.menu-lateral {
+    position: relative;
+    width: 100px;
+    height: 78vh;
+    padding: 24px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 19px;
+    overflow: visible;
+    z-index: 900;
+}
+
+.lista-agendas {
+    display: flex;  
+    flex-direction: column;
+    position: relative;
+    overflow: visible;
+    align-items: center;
+    gap: 16px;
+    padding: 6px 4px 16px 9px;
+}
+
+.scroll-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: visible;
+    padding-right: 4px;
+}
+
+.scroll-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.icone-tipo {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
+}
+
+.icone-tipo img {
+    width: 80%;
+    height: 80%;
+    display: block;
+    object-fit: cover;
+    
+}
+
+.icone-tipo:hover {
+    filter: saturate(200%);
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.icone-tipo.ativo {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+.icone-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icone-tipo:hover .tooltip {
+    opacity: 1;
+}
+
+/*
+.tooltip {
+    position: absolute;
+    left: 110%;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 10;
+}
+*/

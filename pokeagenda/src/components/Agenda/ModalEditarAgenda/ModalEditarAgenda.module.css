@@ -1,0 +1,19 @@
+.botoesRodape {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.botaoExcluir {
+    background-color: #ef4444;
+    color: white;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.botaoExcluir:hover {
+    background-color: #dc2626;
+}
